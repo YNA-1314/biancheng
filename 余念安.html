@@ -1,0 +1,492 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>十日终焉 · 余念安</title>
+    <style>
+      /* 轻量重置 + 极简美学 */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        background: linear-gradient(
+          145deg,
+          #1a2634,
+          #121b24
+        ); /* 深色背景，贴合悬疑氛围 */
+        font-family:
+          system-ui,
+          -apple-system,
+          "Segoe UI",
+          Roboto,
+          "Helvetica Neue",
+          sans-serif;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1.5rem;
+        line-height: 1.5;
+        color: #e3e9f0;
+      }
+
+      /* 主卡片 —— 半透明深色，神秘感 */
+      .card {
+        max-width: 550px;
+        width: 100%;
+        background: rgba(25, 35, 45, 0.9);
+        backdrop-filter: blur(6px);
+        border-radius: 2.5rem;
+        padding: 2.5rem 2rem;
+        box-shadow:
+          0 25px 40px -15px rgba(0, 0, 0, 0.6),
+          0 2px 8px rgba(0, 0, 0, 0.3);
+        transition:
+          transform 0.25s ease,
+          box-shadow 0.3s ease;
+        border: 1px solid rgba(100, 150, 200, 0.2);
+      }
+
+      .card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 32px 50px -18px rgba(0, 40, 60, 0.6);
+      }
+
+      /* 头像：神秘光晕 + 白衣意象 */
+      .avatar {
+        width: 96px;
+        height: 96px;
+        background: linear-gradient(135deg, #3a506b, #1c2a3a);
+        border-radius: 50%;
+        margin: 0 auto 1.2rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 3.5rem;
+        box-shadow:
+          0 12px 20px -8px rgba(0, 160, 255, 0.2),
+          0 0 0 2px rgba(200, 230, 255, 0.3) inset;
+        transition: transform 0.2s;
+        color: #d4eaff;
+        border: 1px solid #5f8bb3;
+      }
+
+      .avatar:hover {
+        transform: scale(1.02);
+      }
+
+      /* 名字 + 小说标题 */
+      h1 {
+        font-size: 2.4rem;
+        font-weight: 600;
+        letter-spacing: 0.02em;
+        margin-bottom: 0.1rem;
+        color: #ffffff;
+        text-shadow: 0 2px 5px rgba(0, 160, 255, 0.3);
+      }
+
+      .subhead {
+        font-size: 1.1rem;
+        font-weight: 400;
+        color: #9bb8da;
+        margin-bottom: 1rem;
+        letter-spacing: 1px;
+      }
+
+      .novel-tag {
+        background: #2a4055;
+        color: #c5e0ff;
+        padding: 0.2rem 1.2rem;
+        border-radius: 30px;
+        display: inline-block;
+        font-size: 0.85rem;
+        border: 1px solid #3f6385;
+        margin-bottom: 1.2rem;
+      }
+
+      /* 细分割线 —— 暗色发光 */
+      .divider {
+        width: 70px;
+        height: 2px;
+        background: #3e6182;
+        border: none;
+        margin: 1.2rem auto;
+        border-radius: 2px;
+        box-shadow: 0 0 6px #5f9eff;
+      }
+
+      /* 角色引言（经典台词） */
+      .quote {
+        font-size: 1.2rem;
+        font-style: italic;
+        color: #c4daf5;
+        margin: 0.8rem 0 1.5rem;
+        padding: 0 0.5rem;
+        quotes: "“" "”";
+        background: rgba(20, 40, 60, 0.5);
+        border-radius: 50px;
+        padding: 0.8rem 1.2rem;
+        border-left: 4px solid #7aa9dd;
+        text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+      }
+
+      .quote::before {
+        content: "“";
+        font-size: 2rem;
+        opacity: 0.5;
+        margin-right: 0.2rem;
+        vertical-align: middle;
+        color: #9ac4ff;
+      }
+
+      .quote::after {
+        content: "”";
+        font-size: 2rem;
+        opacity: 0.5;
+        margin-left: 0.2rem;
+        vertical-align: bottom;
+        color: #9ac4ff;
+      }
+
+      /* 角色信息卡片（小说内容） */
+      .bio-card {
+        background: #1d2b38;
+        border-radius: 1.8rem;
+        padding: 1.5rem 1.5rem;
+        margin: 1.8rem 0;
+        border: 1px solid #325172;
+        box-shadow:
+          inset 0 0 15px rgba(0, 20, 40, 0.6),
+          0 6px 12px rgba(0, 0, 0, 0.4);
+      }
+
+      .bio-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.8rem;
+        margin-bottom: 1rem;
+        color: #d2e2f5;
+        font-size: 1rem;
+      }
+
+      .bio-item strong {
+        color: #aac9ff;
+        min-width: 70px;
+        font-weight: 500;
+      }
+
+      .bio-item span {
+        color: #e0ecff;
+      }
+
+      /* 首次登场引用 */
+      .first-appear {
+        font-style: italic;
+        background: #0e1a26;
+        padding: 1rem 1.2rem;
+        border-radius: 1.2rem;
+        margin-top: 1.2rem;
+        border-left: 3px solid #5780b0;
+        color: #bdd3f0;
+        font-size: 0.95rem;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+      }
+
+      .first-appear::before {
+        content: "📖 首次登场 · 第26章";
+        display: block;
+        font-weight: 500;
+        color: #a3c6ff;
+        margin-bottom: 0.5rem;
+        font-style: normal;
+      }
+
+      /* 结局故事 */
+      .ending-note {
+        background: #1e3142;
+        border-radius: 1.2rem;
+        padding: 1rem 1.3rem;
+        margin: 1.2rem 0 0.5rem;
+        border: 1px dashed #4e7aa6;
+        color: #d0e3ff;
+        font-size: 0.95rem;
+        line-height: 1.6;
+      }
+
+      .ending-note strong {
+        color: #ffd966;
+        font-weight: 500;
+      }
+
+      /* 社交/情感链接（占位符） */
+      .social-links {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+        margin: 2rem 0 0.8rem;
+        flex-wrap: wrap;
+      }
+
+      .social-link {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 48px;
+        height: 48px;
+        background: #263b4f;
+        border-radius: 50%;
+        color: #b3d6ff;
+        font-size: 1.4rem;
+        font-weight: 500;
+        text-decoration: none;
+        transition: all 0.2s ease;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+        border: 1px solid #3d6389;
+        cursor: default;
+        opacity: 0.7;
+      }
+
+      .social-link:hover {
+        background: #2d4a6b;
+        color: #ffffff;
+        transform: scale(1.08);
+        border-color: #7aaae2;
+      }
+
+      /* 友情链接样式 */
+      .friend-link {
+        margin: 0.8rem 0 1.2rem;
+      }
+      .friend-link a {
+        display: inline-block;
+        background: #1f3243;
+        color: #c5dcff;
+        padding: 0.6rem 1.8rem;
+        border-radius: 40px;
+        text-decoration: none;
+        font-size: 1rem;
+        border: 1px solid #385d82;
+        transition: all 0.15s ease;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        font-weight: 400;
+        letter-spacing: 0.3px;
+      }
+      .friend-link a:hover {
+        background: #2d4a6b;
+        color: #ffffff;
+        border-color: #7aaae2;
+        transform: scale(1.02);
+      }
+
+      /* 问候区域 */
+      .greeting-box {
+        background: #1f3243;
+        border-radius: 60px;
+        padding: 0.7rem 1.2rem;
+        display: inline-block;
+        margin: 0.5rem auto 1.2rem;
+        font-size: 0.95rem;
+        color: #c5dcff;
+        border: 1px solid #385d82;
+        backdrop-filter: blur(2px);
+        box-shadow:
+          inset 0 1px 5px rgba(255, 255, 255, 0.05),
+          0 4px 10px rgba(0, 0, 0, 0.3);
+      }
+
+      /* 图片样式 */
+      .character-image {
+        margin: 1.2rem auto;
+        width: 220px;
+        height: 220px;
+        border-radius: 50%;
+        overflow: hidden;
+        border: 4px solid #5f8bb3;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.7);
+      }
+      .character-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+
+      /* 图片提示 */
+      .image-hint {
+        font-size: 0.8rem;
+        color: #98b2d1;
+        background: #162b3b;
+        padding: 0.5rem 1rem;
+        border-radius: 30px;
+        margin: 0.8rem 0 0;
+        border: 1px solid #2e5277;
+        display: inline-block;
+      }
+
+      /* 页脚 + 制作人 */
+      .footer-note {
+        font-size: 0.85rem;
+        color: #6f8fb2;
+        margin-top: 1.6rem;
+        letter-spacing: 0.3px;
+        border-top: 1px dashed #315577;
+        padding-top: 1.2rem;
+      }
+
+      .text-center {
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="card text-center">
+      <!-- 头像区：白裙意象 + 柔光 -->
+      <div class="avatar" aria-hidden="true">👗</div>
+
+      <!-- 姓名：余念安 + 小说标识 -->
+      <h1>余念安</h1>
+      <div class="subhead">《十日终焉》· 执念所化之人</div>
+      <div class="novel-tag">杀虫队队员 作品</div>
+
+      <!-- 图片区域：已调整大小 -->
+      <div class="character-image">
+        <img
+          src="https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAERuC1ptksmZtVfkTLkg15UDfDmVtMw3AACWR8AAlpcsFWduMU0A1-lhToE.jpg"
+          alt="余念安形象"
+          loading="lazy"
+        />
+      </div>
+
+      <!-- 经典台词（小说核心印象） -->
+      <div class="quote">那个喜欢穿着白衣的女孩，是齐夏所有信念的归处</div>
+
+      <!-- 角色详细介绍（小说内容填充） -->
+      <div class="bio-card">
+        <div class="bio-item">
+          <strong>身份</strong>
+          <span>主角齐夏虚构的妻子，由信念具象化</span>
+        </div>
+        <div class="bio-item">
+          <strong>象征</strong>
+          <span>人性的锚点 · 精神支柱 · 白月光</span>
+        </div>
+        <div class="bio-item">
+          <strong>创作者</strong>
+          <span>齐夏为在轮回中保持人性而"创造"的存在</span>
+        </div>
+
+        <!-- 首次登场原文 -->
+        <div class="first-appear">
+          "齐夏……迫不及待的想离开这个鬼地方，去见自己的妻子。去见余念安。去见那个喜欢穿着白衣的女孩。"
+        </div>
+
+        <!-- 结局故事（来自搜索结果） -->
+        <div class="ending-note">
+          <strong>⚡ 终焉结局 · 执念永伴</strong><br />
+          余念安由齐夏的信念创造而出，最终在齐夏的血肉世界中被再次创造，成为唯一陪伴齐夏的人。齐夏承受永恒孤独，却让所有人获得新生，而余念安是他留在身边唯一的温暖。
+        </div>
+      </div>
+
+      <!-- 经典语录 / 齐夏自述（丰富内容） -->
+      <div
+        style="
+          background: #1a2b3b;
+          border-radius: 2rem;
+          padding: 1rem 1.3rem;
+          margin: 1rem 0;
+          border: 1px solid #3c628b;
+          font-size: 0.95rem;
+          color: #c9defa;
+        "
+      >
+        <span style="color: #ffd966"
+          >"我创造了余念安，爱穿白裙子，身上有淡淡的栀子花香，名字取'余念皆安'的意思。"</span
+        >
+        —— 齐夏自述
+      </div>
+
+      <!-- 人物关系/标签（贴合小说） -->
+      <div class="social-links">
+        <span class="social-link" title="齐夏之妻" style="cursor: default"
+          >❤️</span
+        >
+        <span class="social-link" title="白衣女子" style="cursor: default"
+          >👘</span
+        >
+        <span class="social-link" title="精神支柱" style="cursor: default"
+          >✨</span
+        >
+        <span class="social-link" title="余念皆安" style="cursor: default"
+          >🌙</span
+        >
+      </div>
+
+      <!-- 友情链接区域（已按需求修改文字） -->
+      <div class="friend-link">
+        <a
+          href="https://yna-1314.github.io/biancheng/"
+          target="_blank"
+          rel="noopener"
+          >🔗 友情链接</a
+        >
+      </div>
+
+      <!-- 图片获取提示（符合用户需求） -->
+      <div class="image-hint">
+        🖼️ 同人图参考：微博画师"矛盾文学奖颁奖得主"<br />
+        您可前往小红书/微博搜索"十日终焉 余念安"下载
+      </div>
+
+      <!-- 动态问候 (保留) -->
+      <div id="greetingContainer" class="greeting-box">
+        <span id="greetingMessage">🌌 终焉之地 · 时间流转中...</span>
+      </div>
+
+      <!-- 页脚：制作人 -->
+      <div class="footer-note">© 2026 · 十日终焉 · 角色卡片 · 制作人 htq</div>
+    </main>
+
+    <script>
+      (function () {
+        const greetingEl = document.getElementById("greetingMessage");
+
+        function updateGreeting() {
+          const now = new Date();
+          const hour = now.getHours();
+          const minute = now.getMinutes();
+          const formattedMinute = minute < 10 ? "0" + minute : minute;
+
+          // 贴合小说氛围的问候语
+          let greetText = "";
+          let emoji = "";
+
+          if (hour >= 5 && hour < 12) {
+            greetText = "终焉之地的早晨";
+            emoji = "🌫️";
+          } else if (hour >= 12 && hour < 18) {
+            greetText = "轮回的午后";
+            emoji = "⏳";
+          } else if (hour >= 18 && hour < 22) {
+            greetText = "第十日的夜晚";
+            emoji = "🌑";
+          } else {
+            greetText = "永恒的深夜";
+            emoji = "🌌";
+          }
+
+          greetingEl.textContent = `${emoji} ${greetText} · ${hour}:${formattedMinute}`;
+        }
+
+        updateGreeting();
+        const intervalId = setInterval(updateGreeting, 1000);
+        window.addEventListener("beforeunload", function () {
+          clearInterval(intervalId);
+        });
+      })();
+    </script>
+  </body>
+</html>
